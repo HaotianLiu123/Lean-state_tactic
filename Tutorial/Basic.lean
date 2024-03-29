@@ -4,16 +4,8 @@ import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.Data.Polynomial.Basic
 import Mathlib.Algebra.BigOperators.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
--- import Mathlib.Data.Fin.Tuple.Reflection
--- import Mathlib.Analysis.Calculus.FDeriv.Basic
 import Mathlib.Order.Filter.Basic
 import Mathlib.Topology.Basic
--- import Mathlib.Topology.Instances.Matrix
--- import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
--- import Mathlib.Data.Nat.Factorization.Basic
--- import Mathlib.LinearAlgebra.Matrix.PosDef
--- import Mathlib.LinearAlgebra.Matrix.Adjugate
--- import Mathlib.LinearAlgebra.FiniteDimensional
 import Mathlib.LinearAlgebra.Matrix.Block
 import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Deriv
