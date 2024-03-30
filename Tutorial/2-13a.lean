@@ -36,88 +36,268 @@ theorem problem_a (a : Fin m → ℝ) (X : Matrix (Fin m) (Fin n) ℝ) (b : Fin 
 
 theorem problem_a_state (a : Fin m → ℝ) (X : Matrix (Fin m) (Fin n) ℝ) (b : Fin n → ℝ)
   : HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b) := by
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b)-/
+    /-
+    m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b)
+    -/
     simp [HasGateauxDerivAt]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => (a ⬝ᵥ mulVec (X + t • V) b - a ⬝ᵥ mulVec X b) / t) (𝓝[≠] 0)
-    (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => (a ⬝ᵥ mulVec (X + t • V) b - a ⬝ᵥ mulVec X b) / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))
+    -/
     simp [Matrix.add_mulVec]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => a ⬝ᵥ mulVec (t • V) b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => a ⬝ᵥ mulVec (t • V) b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     simp [Matrix.smul_mulVec_assoc]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t * a ⬝ᵥ mulVec V b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t * a ⬝ᵥ mulVec V b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     simp [← div_mul_eq_mul_div]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     intro V
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     have : innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b := by
       rw [<- f_aXb]
       apply Eq.symm
       apply f_aXb_eq
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     rw [this]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
     have : (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] (fun _ => a ⬝ᵥ mulVec V b) := by
       apply eventuallyEq_nhdsWithin_of_eqOn
       intro x h
       simp
       rw [div_self (h), one_mul]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
     apply (Filter.tendsto_congr' this).mpr
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
     apply tendsto_const_nhds
     /-No goals-/
 
 
 /-no tactic-/
-
 theorem problem_a_notactic (a : Fin m → ℝ) (X : Matrix (Fin m) (Fin n) ℝ) (b : Fin n → ℝ)
   : HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b) := by
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b)-/
+    /-
+    m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b)
+    -/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => (a ⬝ᵥ mulVec (X + t • V) b - a ⬝ᵥ mulVec X b) / t) (𝓝[≠] 0)
-    (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => (a ⬝ᵥ mulVec (X + t • V) b - a ⬝ᵥ mulVec X b) / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))
+    -/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => a ⬝ᵥ mulVec (t • V) b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => a ⬝ᵥ mulVec (t • V) b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t * a ⬝ᵥ mulVec V b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t * a ⬝ᵥ mulVec V b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
 
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+
+    /-No goals-/
+
+theorem problem_a_1 (a : Fin m → ℝ) (X : Matrix (Fin m) (Fin n) ℝ) (b : Fin n → ℝ)
+  : HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b) := by
+    simp [HasGateauxDerivAt]
+    simp [Matrix.add_mulVec]
+    simp [Matrix.smul_mulVec_assoc]
+    simp [← div_mul_eq_mul_div]
+    intro V
+
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
 
     /-No goals-/
     sorry
 
-theorem problem_a_1 (a : Fin m → ℝ) (X : Matrix (Fin m) (Fin n) ℝ) (b : Fin n → ℝ)
+
+/--proof and state-/
+
+theorem problem_a_2 (a : Fin m → ℝ) (X : Matrix (Fin m) (Fin n) ℝ) (b : Fin n → ℝ)
   : HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b) := by
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b)-/
     simp [HasGateauxDerivAt]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => (a ⬝ᵥ mulVec (X + t • V) b - a ⬝ᵥ mulVec X b) / t) (𝓝[≠] 0)
-    (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     simp [Matrix.add_mulVec]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => a ⬝ᵥ mulVec (t • V) b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     simp [Matrix.smul_mulVec_assoc]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t * a ⬝ᵥ mulVec V b / t) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     simp [← div_mul_eq_mul_div]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     intro V
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
     have : innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b := by
-     sorry
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
-    rw [this]
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+      sorry
+
     have : (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] (fun _ => a ⬝ᵥ mulVec V b) := by
       sorry
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
-    apply (Filter.tendsto_congr' this).mpr
-    /-m n: ℕ \n a: Fin m → ℝ \n X: Matrix (Fin m) (Fin n) ℝ \n b: Fin n → ℝ \n V: Matrix (Fin m) (Fin n) ℝ \n this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b \n this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b \n ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
-    apply tendsto_const_nhds
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    sorry
+    /-No goals-/
+
+
+theorem problem_a_state (a : Fin m → ℝ) (X : Matrix (Fin m) (Fin n) ℝ) (b : Fin n → ℝ)
+  : HasGateauxDerivAt (f_aXb a b) X (vecMulVec a b) := by
+    simp [HasGateauxDerivAt]
+    sorry
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    ⊢ ∀ (V : Matrix (Fin m) (Fin n) ℝ), Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (innerProductofMatrix (vecMulVec a b) V))-/
+
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun t => t / t * a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+
+    /-m n: ℕ
+    a: Fin m → ℝ
+    X: Matrix (Fin m) (Fin n) ℝ
+    b: Fin n → ℝ
+    V: Matrix (Fin m) (Fin n) ℝ
+    this✝: innerProductofMatrix (vecMulVec a b) V = a ⬝ᵥ mulVec V b
+    this: (fun t => t / t * a ⬝ᵥ mulVec V b) =ᶠ[𝓝[≠] 0] fun x => a ⬝ᵥ mulVec V b
+    ⊢ Filter.Tendsto (fun x => a ⬝ᵥ mulVec V b) (𝓝[≠] 0) (𝓝 (a ⬝ᵥ mulVec V b))-/
+    sorry
     /-No goals-/
